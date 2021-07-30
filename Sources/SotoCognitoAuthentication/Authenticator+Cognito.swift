@@ -34,7 +34,7 @@ public struct CognitoAccessAuthenticator: BearerAuthenticator {
     public init() {}
     
     public func authenticate(bearer: BearerAuthorization, for request: Request) -> EventLoopFuture<Void> {
-        return request.application.cognito.authenticatable.authenticate(accessToken: bearer.token, on: request.eventLoop).map { token in
+        return request.application.cognito.authenticatable.authenticate(accessToken: bearer.token, on: request.eventLoop).map { (token: CognitoAccessToken) in
             request.auth.login(token)
         }.flatMapErrorThrowing { error in
             switch error {

@@ -10,7 +10,7 @@ let package = Package(
         .library(name: "SotoCognitoAuthentication", targets: ["SotoCognitoAuthentication"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-cognito-authentication-kit.git", from: "3.0.0"),
+        .package(url: "https://github.com/ltetzlaff/soto-cognito-authentication-kit.git", .branch("allow-custom-access-token-type")),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
     ],
     targets: [
