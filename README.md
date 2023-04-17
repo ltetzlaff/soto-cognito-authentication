@@ -8,20 +8,23 @@ This is the Vapor wrapper for [Soto Cognito Authentication Kit](https://github.c
 ## Configuration
 Store your `CognitoConfiguration` on the Application object. In configure.swift add the following with your configuration details
 ```swift
+let awsClient = AWSClient(httpClientProvider: .shared(app.http.client.shared))
 let awsCognitoConfiguration = CognitoConfiguration(
     userPoolId: String = "eu-west-1_userpoolid",
     clientId: String = "23432clientId234234",
     clientSecret: String = "1q9ln4m892j2cnsdapa0dalh9a3aakmpeugiaag8k3cacijlbkrp",
-    cognitoIDP: CognitoIdentityProvider = CognitoIdentityProvider(region: .euwest1)
+    cognitoIDP: CognitoIdentityProvider = CognitoIdentityProvider(client: awsClient, region: .euwest1),
+    adminClient: true
 )
 app.cognito.authenticatable = CognitoAuthenticatable(configuration: awsCognitoConfiguration)
 ```
 The CognitoIdentity configuration can be setup in a similar way.
 ```swift
 let awsCognitoIdentityConfiguration = CognitoIdentityConfiguration(
-    identityPoolId: String = "eu-west-1_identitypoolid"
-    identityProvider: String = "provider"
-    cognitoIdentity: CognitoIdentity = CognitoIdentity(region: .euwest1)
+    identityPoolId: String = "eu-west-1_identitypoolid",
+    userPoolId: String = "eu-west-1_userpoolid",
+    region: .euwest1,
+    cognitoIdentity: CognitoIdentity = CognitoIdentity(client: awsClient, region: .euwest1)
 )
 let app.cognito.identifiable = CognitoIdentifiable(configuration: awsCognitoIdentityConfiguration)
 ```
@@ -62,7 +65,7 @@ struct User: Content & Authenticatable {
     }
 }
 ```
-Add a route using the authenticator. The `CognitoIdAuthenticator` authenticates the request, the `guardMiddleware` ensures the user if authenticated. The actual function accesses the `User` type via `req.auth.require`.
+Add a route using the authenticator. The `CognitoIdAuthenticator` authenticates the request, the `guardMiddleware` ensures the user is authenticated. The actual function accesses the `User` type via `req.auth.require`.
 ```swift
 app.grouped(CognitoIdAuthenticator<User>())
     .grouped(User.guardMiddleware())
