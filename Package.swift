@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.6
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
@@ -28,7 +28,7 @@ let package = Package(
         .library(name: "SotoCognitoAuthentication", targets: ["SotoCognitoAuthentication"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ltetzlaff/soto-cognito-authentication-kit.git", .branch("allow-custom-access-token-type")),
+        .package(url: "https://github.com/ltetzlaff/soto-cognito-authentication-kit.git", revision: "4.1.0+fork.lt.1"),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
     ],
     targets: [
