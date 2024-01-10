@@ -69,6 +69,10 @@ public extension Request {
                 }
         }
 
+        public init(request: Request) {
+            self.request = request
+        }
+
         let request: Request
     }
 }
