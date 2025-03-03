@@ -28,7 +28,7 @@ let package = Package(
         .library(name: "SotoCognitoAuthentication", targets: ["SotoCognitoAuthentication"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/rocketnik/soto-cognito-authentication-kit.git", revision: "694b08d188e2c3e73e06d29fcafea73451088171"), // 5.0.0
+        .package(url: "https://github.com/rocketnik/soto-cognito-authentication-kit.git", revision: "e1a15c6d589fd906be067b1a829881b7d90bbe36"), // 5.0.0
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
     ],
     targets: [

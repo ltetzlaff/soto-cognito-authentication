@@ -52,6 +52,10 @@ public extension Application {
             }
         }
 
+        public init(application: Application) {
+            self.application = application
+        }
+
         let application: Application
     }
 }

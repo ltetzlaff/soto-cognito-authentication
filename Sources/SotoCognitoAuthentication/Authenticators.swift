@@ -53,7 +53,7 @@ public struct CognitoAccessAuthenticator: AsyncBearerAuthenticator {
 
     public func authenticate(bearer: BearerAuthorization, for request: Request) async throws {
         do {
-            let token = try await request.application.cognito.authenticatable.authenticate(accessToken: bearer.token)
+            let token: CognitoAccessToken = try await request.application.cognito.authenticatable.authenticate(accessToken: bearer.token)
             request.auth.login(token)
         } catch {
             switch error {

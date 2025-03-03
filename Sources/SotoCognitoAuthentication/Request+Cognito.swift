@@ -76,6 +76,10 @@ public extension Request {
             return try await identifiable.getCredentialForIdentity(identityId: identity, idToken: bearer.token)
         }
 
+        public init(request: Request) {
+            self.request = request
+        }
+
         let request: Request
     }
 }
