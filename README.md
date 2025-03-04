@@ -1,6 +1,6 @@
 # Soto Cognito Authentication
-[<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
-[<img src="https://github.com/adam-fowler/soto-cognito-authentication/workflows/Swift/badge.svg" />](https://github.com/adam-fowler/soto-cognito-authentication/actions?query=workflow%3ASwift)
+[<img src="http://img.shields.io/badge/swift-6.0-brightgreen.svg" alt="Swift 6.0" />](https://swift.org)
+[<img src="https://github.com/vapor-community/soto-cognito-authentication/workflows/CI/badge.svg" />](https://github.com/vapor-community/soto-cognito-authentication/actions?query=workflow%3ACI)
 
 This is the Vapor wrapper for [Soto Cognito Authentication Kit](https://github.com/adam-fowler/soto-cognito-authentication-kit). It provides application storage for configurations and authentication calls on request. Documentation on Soto Cognito Authentication Kit can be found [here](https://github.com/adam-fowler/soto-cognito-authentication-kit/blob/main/README.md)
 
@@ -31,9 +31,9 @@ let app.cognito.identifiable = CognitoIdentifiable(configuration: awsCognitoIden
 ## Accessing functionality
 Functions like `createUser`, `signUp`, `authenticate` with username and password and `responseToChallenge` are all accessed through `request.application.cognito.authenticatable`. The following login route will return the full response from `CognitoAuthenticable.authenticate`.
 ```swift
-    func login(_ req: Request) throws -> EventLoopFuture<CognitoAuthenticateResponse> {
+    func login(_ req: Request) async throws -> CognitoAuthenticateResponse {
         let user = try req.content.decode(User.self)
-        return req.application.cognito.authenticatable.authenticate(
+        return try await req.application.cognito.authenticatable.authenticate(
             username: user.username,
             password: user.password,
             context: req,
@@ -42,10 +42,8 @@ Functions like `createUser`, `signUp`, `authenticate` with username and password
 ```
 If id, access or refresh tokens are provided in the 'Authorization' header as Bearer tokens the following functions in Request can be used to verify them `authenticate(idToken:)`, `authenticate(accessToken:)`, `refresh`. as in the following
 ```swift
-func authenticateAccess(_ req: Request) throws -> Future<> {
-    req.cognito.authenticateAccess().flatMap { _ in
-        ...
-    }
+func authenticateAccess(_ req: Request) async throws {
+    let token = try await req.cognito.authenticateAccess()
 }
 ```
 

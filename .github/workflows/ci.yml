@@ -5,34 +5,36 @@ on:
     branches:
     - main
     paths:
-    - '**.swift'
+      - '**.swift'
+      - '**.yml'
   pull_request:
     branches:
     - main
     paths:
     - '**.swift'
+    - '**.yml'
   workflow_dispatch:
 
 jobs:
-  macOS:
-    runs-on: macOS-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Build
-      run: swift build
+#  macOS:
+#    runs-on: macOS-latest
+#    steps:
+#    - name: Checkout
+#      uses: actions/checkout@v4
+#    - name: Build
+#      run: swift build
 
   linux:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        swift: ["swift:5.6", "swift:5.7", "swift:5.8"]
+        swift: ["swift:6.0"]
     runs-on: ${{ matrix.os }}
     container:
       image: ${{ matrix.swift }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v4
       with:
         fetch-depth: 1
     - name: Build
